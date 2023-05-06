@@ -1,3 +1,6 @@
+// TODO: https://github.com/Relm4/relm4-template.git
+// who knows when i'll see this lmao
+
 use gtk::prelude::*;
 use relm4::prelude::*;
 
