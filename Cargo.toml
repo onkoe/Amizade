@@ -1,13 +1,12 @@
 [package]
-name = "amizade"
+name = "gtk-rust-template"
 version = "0.1.0"
+authors = ["Bilal Elmoussaoui <bil.elmoussaoui@gmail.com>"]
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+publish = false
 
 [dependencies]
-# adw = { version = "0.3.1", package = "libadwaita", features = ["v1_3"] }
-# gtk = { version = "0.5.0", package = "gtk4", features = ["v4_10"] }
-relm4 = {version = "0.5.0", features = ["libadwaita"]}
-relm4-components = "0.5.0"
-
+gettext-rs = { version = "0.7", features = ["gettext-system"] }
+tracing = "0.1"
+tracing-subscriber = "0.3"
+relm4 = "0.5.1"
