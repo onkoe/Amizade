@@ -1,15 +1,15 @@
 project(
-  'gtk-rust-template',
+  'amizade',
   'rust',
   version: '0.1.0',
   meson_version: '>= 0.59',
-  # license: 'MIT',
+  license: 'GPL-3.0-or-later',
 )
 
 i18n = import('i18n')
 gnome = import('gnome')
 
-base_id = 'com.belmoussaoui.GtkRustTemplate'
+base_id = 'club.barretts.Amizade'
 
 dependency('glib-2.0', version: '>= 2.66')
 dependency('gio-2.0', version: '>= 2.66')

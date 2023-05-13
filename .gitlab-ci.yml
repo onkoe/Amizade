@@ -8,10 +8,10 @@ flatpak:
   tags:
     - flatpak
   variables:
-    BUNDLE: "gtk-rust-template-nightly.flatpak"
-    MANIFEST_PATH: "build-aux/com.belmoussaoui.GtkRustTemplate.Devel.json"
-    FLATPAK_MODULE: "gtk-rust-template"
-    APP_ID: "com.belmoussaoui.GtkRustTemplate.Devel"
+    BUNDLE: "amizade-nightly.flatpak"
+    MANIFEST_PATH: "build-aux/club.barretts.Amizade.Devel.json"
+    FLATPAK_MODULE: "amizade"
+    APP_ID: "club.barretts.Amizade.Devel"
     RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
   script:
     - flatpak install --user --noninteractive org.freedesktop.Sdk.Extension.llvm15//22.08

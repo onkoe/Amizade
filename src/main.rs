@@ -28,7 +28,7 @@ fn main() {
     setup();
 
     let app = main_application();
-    app.set_resource_base_path(Some("/com/belmoussaoui/GtkRustTemplate/"));
+    app.set_resource_base_path(Some("/club/barretts/Amizade/"));
 
     let actions = RelmActionGroup::<AppActionGroup>::new();
 

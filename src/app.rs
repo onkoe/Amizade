@@ -36,7 +36,7 @@ impl SimpleComponent for App {
             section! {
                 "_Preferences" => PreferencesAction,
                 "_Keyboard" => ShortcutsAction,
-                "_About GTK Rust Template" => AboutAction,
+                "_About Amizade" => AboutAction,
             }
         }
     }
@@ -50,7 +50,7 @@ impl SimpleComponent for App {
 
             #[wrap(Some)]
             set_help_overlay: shortcuts = &gtk::Builder::from_resource(
-                    "/com/belmoussaoui/GtkRustTemplate/gtk/help-overlay.ui"
+                    "/club/barretts/Amizade/gtk/help-overlay.ui"
                 )
                 .object::<gtk::ShortcutsWindow>("help_overlay")
                 .unwrap() -> gtk::ShortcutsWindow {

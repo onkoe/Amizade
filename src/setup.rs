@@ -11,7 +11,7 @@ pub fn setup() {
 
     setup_gettext();
 
-    glib::set_application_name(&gettext("GTK Rust Template"));
+    glib::set_application_name(&gettext("Amizade"));
 
     let res = gio::Resource::load(RESOURCES_FILE).expect("Could not load gresource file");
     gio::resources_register(&res);
@@ -30,7 +30,7 @@ fn setup_gettext() {
 
 fn setup_css() {
     let provider = gtk::CssProvider::new();
-    provider.load_from_resource("/com/belmoussaoui/GtkRustTemplate/style.css");
+    provider.load_from_resource("/club/barretts/Amizade/style.css");
     if let Some(display) = gdk::Display::default() {
         gtk::StyleContext::add_provider_for_display(
             &display,

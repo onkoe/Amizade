@@ -20,12 +20,12 @@ impl SimpleComponent for AboutDialog {
             // Insert your license of choice here
             // .license_type(gtk::License::MitX11)
             // Insert your website here
-            // .website("https://gitlab.gnome.org/bilelmoussaoui/gtk-rust-template/")
+            // .website("https://gitlab.gnome.org/bilelmoussaoui/amizade/")
             .version(VERSION)
             .translator_credits(&gettext("translator-credits"))
             .modal(true)
-            .authors(vec!["Bilal Elmoussaoui".into()])
-            .artists(vec!["Bilal Elmoussaoui".into()])
+            .authors(vec!["Barrett Ray".into()])
+            .artists(vec!["Barrett Ray".into()])
             .build()
     }
 
