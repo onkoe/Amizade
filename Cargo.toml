@@ -3,4 +3,5 @@
 members = [
     "amizade",
     "ocs-custodian",
+    "yoink-ocs",
 ]
