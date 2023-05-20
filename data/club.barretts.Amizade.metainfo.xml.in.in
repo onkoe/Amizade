@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Barrett Ray 2019 <barrettjray@protonmail.com> -->
+<!--Copyright 2023 Barrett Ray <barrettjray@protonmail.com> -->
 <component type="desktop-application">
   <id>@app-id@</id>
   <metadata_license>CC0</metadata_license>
-  <!-- Insert your license of choice here -->
-  <!-- <project_license>MIT</project_license> -->
+  <project_license>GPL-3.0+</project_license>
   <name>Amizade</name>
-  <summary>Write a GTK + Rust application</summary>
+  <summary>Opens ocs:// links for installation</summary>
+
   <description>
-    <p>A boilerplate template for GTK + Rust. It uses Meson as a build system and has flatpak support by default.</p>
+    <p>
+      Amizade lets you install anything over ocs:// - including applications, icons, cursors, themes, sound packs, scripts, screensavers, extensions, and much more!
+
+      It connects to OCS, also known as the Open Collaboration Services API! Websites like Pling and its derivatives, such as GNOME-Look or KDE-Look, often use these, giving you access to everything these sites have to offer... All from your Linux desktop! 
+    </p>
   </description>
+
   <screenshots>
     <screenshot type="default">
       <image>https://gitlab.gnome.org/bilelmoussaoui/amizade/raw/master/data/resources/screenshots/screenshot1.png</image>
       <caption>Main window</caption>
     </screenshot>
   </screenshots>
-  <url type="homepage">https://gitlab.gnome.org/bilelmoussaoui/amizade</url>
-  <url type="bugtracker">https://gitlab.gnome.org/bilelmoussaoui/amizade/issues</url>
+  <url type="homepage">https://github.com/onkoe/amizade</url>
+  <url type="bugtracker">https://github.com/onkoe/amizade/issues</url>
   <content_rating type="oars-1.0" />
   <releases>
     <release version="0.1.0" date="2019-07-11" />
