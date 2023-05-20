@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [main]
+    branches: [main, split]
   pull_request:
 
 name: CI
@@ -18,7 +18,7 @@ jobs:
           override: true
           components: rustfmt
       - name: Create blank versions of configured file
-        run: echo -e "" >> src/config.rs
+        run: echo -e "" >> amizade/src/config.rs
       - name: Run cargo fmt
         run: cargo fmt --all -- --check
 
@@ -33,6 +33,6 @@ jobs:
     - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v6
       with:
         bundle: amizade.flatpak
-        manifest-path: build-aux/club.barretts.Amizade.Devel.json
+        manifest-path: amizade/build-aux/club.barretts.Amizade.Devel.json
         run-tests: true
         cache-key: flatpak-builder-${{ github.sha }}

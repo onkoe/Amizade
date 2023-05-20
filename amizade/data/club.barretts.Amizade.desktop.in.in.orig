@@ -1,0 +1,24 @@
+[Desktop Entry]
+Name=Amizade
+<<<<<<< HEAD
+Comment=Write a GTK + Rust application
+Type=Application
+Exec=amizade
+Terminal=false
+Categories=GNOME;GTK;
+# Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+Keywords=Gnome;GTK;
+# Translators: Do NOT translate or transliterate this text (this is an icon file name)!
+Icon=@icon@
+StartupNotify=true
+=======
+Comment=Opens ocs:// links for installation. 
+Icon=@icon@
+Exec=amizade %u
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=GNOME;GTK;Network;Utility
+MimeType=x-scheme-handler/ocs;x-scheme-handler/ocss;x-scheme-handler/xdg;x-scheme-handler/xdgs
+Keywords=OCS;OCS-URL;Pling
+>>>>>>> 1e8e2cdcf42ec035b5abb8d8abeab5105659767a

@@ -9,7 +9,7 @@ flatpak:
     - flatpak
   variables:
     BUNDLE: "amizade-nightly.flatpak"
-    MANIFEST_PATH: "build-aux/club.barretts.Amizade.Devel.json"
+    MANIFEST_PATH: "amizade/build-aux/club.barretts.Amizade.Devel.json"
     FLATPAK_MODULE: "amizade"
     APP_ID: "club.barretts.Amizade.Devel"
     RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
@@ -25,8 +25,8 @@ flatpak:
     when: 'always'
     paths:
       - "${BUNDLE}"
-      - '.flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/meson-logs/meson-log.txt'
-      - '.flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/meson-logs/testlog.txt'
+      - 'amizade/.flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/meson-logs/meson-log.txt'
+      - 'amizade/.flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/meson-logs/testlog.txt'
     expire_in: 14 days
 
 # Configure and run rustfmt
@@ -37,7 +37,7 @@ rustfmt:
     - rustup component add rustfmt
     # Create blank versions of our configured files
     # so rustfmt does not yell about non-existent files or completely empty files
-    - echo -e "" >> src/config.rs
+    - echo -e "" >> amizade/src/config.rs
     - rustc -Vv && cargo -Vv
     - cargo fmt --version
     - cargo fmt --all -- --color=always --check
