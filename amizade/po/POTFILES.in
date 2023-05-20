@@ -1,0 +1,6 @@
+data/club.barretts.Amizade.desktop.in.in
+data/club.barretts.Amizade.gschema.xml.in
+data/club.barretts.Amizade.metainfo.xml.in.in
+data/resources/ui/shortcuts.ui
+data/resources/ui/window.ui
+src/application.rs
