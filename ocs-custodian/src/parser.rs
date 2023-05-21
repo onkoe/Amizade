@@ -7,6 +7,13 @@ use url::Url;
 use urlencoding::decode;
 
 /// Takes in an `ocs://` URL and parses it. Provides a ParsedOcsUrl.
+///
+/// As-is, OCS links should be lowercase in their implementation.
+/// ```
+/// use ocs_custodian::parser::check_url;
+/// assert!((check_url("OCS://INSTALL?URL=https%3A%2F%2Ffake.download%2Fa.mp3&TYPE=music").is_err()));
+/// ```
+///
 pub fn check_url(url: &str) -> Result<ParsedOcsUrl, OcsParsingError> {
     let decoded_url = decode(url)?;
     let ocs_url = Url::parse(decoded_url.deref())?;
@@ -85,6 +92,12 @@ mod tests {
     }
 
     #[test]
+    fn url_parse_empty_link() {
+        let parsed_empty_link = check_url("");
+        assert!(parsed_empty_link.is_err());
+    }
+
+    #[test]
     fn url_parse_test_scheme() {
         // `abc` is not a vaild scheme!
         // Download: https://normal.link/with_thing.mp3
@@ -122,5 +135,10 @@ mod tests {
         );
 
         // Crazy characters scheme
+        let crazy_scheme_link = "#(*H(F*(DH*HS(*D))));ocs://\"://download?url=https%3A%2F%2Fnormal.link%2Fwith_thing.mp3&type=music?filename=with_thing.mp3";
+        let parsed_crazy_scheme = check_url(crazy_scheme_link);
+
+        assert!(parsed_crazy_scheme.is_err());
+        // I don't think we'll ever predict that one...
     }
 }
