@@ -13,6 +13,7 @@ use relm4::{
 use app::App;
 use setup::setup;
 
+#[allow(unused)] // TODO: remove?
 use crate::config::APP_ID;
 
 relm4::new_action_group!(AppActionGroup, "app");
