@@ -29,7 +29,7 @@ pub fn check_url(url: &str) -> Result<ParsedOcsUrl, OcsParsingError> {
             "ocss" => Scheme::Ocss,
             other_scheme => {
                 return Err(OcsParsingError::UnexpectedOcsScheme(
-                    other_scheme.to_string(),
+                    other_scheme.to_owned(),
                 ))
             }
         },
@@ -41,7 +41,7 @@ pub fn check_url(url: &str) -> Result<ParsedOcsUrl, OcsParsingError> {
                 Some(cmd) => match cmd.to_lowercase().as_str() {
                     "download" => Command::Download,
                     "install" => Command::Install,
-                    other => return Err(OcsParsingError::UnexpectedOcsCommand(other.to_string())),
+                    other => return Err(OcsParsingError::UnexpectedOcsCommand(other.to_owned())),
                 },
             }
         },
@@ -51,7 +51,7 @@ pub fn check_url(url: &str) -> Result<ParsedOcsUrl, OcsParsingError> {
         },
         install_type: match parameters.get("type") {
             None => return Err(OcsParsingError::NoInstallType),
-            Some(install_type) => install_type.to_string(), // TODO: do a prelim check if install type is known for installation
+            Some(install_type) => install_type.to_owned(), // TODO: do a prelim check if install type is known for installation
         },
         filename: parameters
             .get("filename")
@@ -107,7 +107,7 @@ mod tests {
         assert!(parsed_weird_link.is_err());
         assert_eq!(
             parsed_weird_link,
-            Err(OcsParsingError::UnexpectedOcsScheme("abc".to_string()))
+            Err(OcsParsingError::UnexpectedOcsScheme("abc".to_owned()))
         );
 
         // No scheme!
