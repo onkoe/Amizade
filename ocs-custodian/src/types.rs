@@ -24,6 +24,8 @@ pub enum OcsParsingError {
     UnknownInstallType(String),
     #[error("No install type was given.")]
     NoInstallType,
+    #[error(transparent)]
+    InstallTypeError(#[from] InstallTypeError),
 }
 
 /// A representation of the most important elements of an OCS link.
@@ -104,4 +106,102 @@ impl Display for Command {
 
         write!(f, "{}", text)
     }
+}
+
+/// Represents which kind of file should be processed.
+/// Helps when dealing with the many, MANY types of files Pling has to offer.
+pub struct InstallType {
+    install_type: dyn InstallStrategy,
+}
+
+/// Defines how any specific InstallType should install itself to the system.
+trait InstallStrategy {
+    fn get_install_path(&self) -> String;
+}
+
+/// Represents a failure to parse given install type data.
+#[derive(Error, Debug, PartialEq, Eq)]
+pub enum InstallTypeError {
+    #[error("No known install type matched the given prompt: {0}")]
+    NoMatchingInstallType(String), // TODO
+    #[error("The given alias, {0}, didn't fit any existing type.")]
+    NoInstallTypeAlias(String),
+}
+
+// personal media
+pub enum PersonalMedia {
+    Bin,
+    Books,
+    Comics,
+    Documents,
+    Downloads,
+    Music,
+    Pictures,
+    Videos,
+    Wallpapers,
+}
+
+impl InstallStrategy for PersonalMedia {
+    /// May use $APP_DATA to denote a place to sae files.
+    /// $APP_DATA is defined as the where the application's configuration lives
+    /// For example, `$XDG_DATA_HOME/amizade`, etc...
+    // TODO: deal with $APP_DATA lmao
+    fn get_install_path(&self) -> String {
+        match self {
+            PersonalMedia::Bin => "$HOME/.local/bin".to_owned(),
+            PersonalMedia::Books => "$APP_DATA/books".to_owned(),
+            PersonalMedia::Comics => "$APP_DATA/comics".to_owned(),
+            PersonalMedia::Documents => "$HOME/Documents".to_owned(),
+            PersonalMedia::Downloads => "$HOME/Downloads".to_owned(),
+            PersonalMedia::Music => "$HOME/Music".to_owned(),
+            PersonalMedia::Pictures => "$HOME/Pictures".to_owned(),
+            PersonalMedia::Videos => "$HOME/Videos".to_owned(),
+            PersonalMedia::Wallpapers => "$XDG_DATA_HOME/wallpapers".to_owned(),
+        }
+    }
+}
+
+// styling
+pub enum Styling {
+    ColorSchemes,
+    Cursors,
+    Emoticons,
+    Fonts,
+    Icons,
+    Themes,
+}
+
+// wm themes
+pub enum WMThemes {
+    CairoClockThemes,
+    CinnamonApplets,
+    CinnamonDesklets,
+    CinnamonExtensions,
+    EmeraldThemes,
+    EnlightenmentBackgrounds,
+    EnlightenmentThemes,
+    FluxboxStyles,
+    GNOMEShellExtensions,
+    IceWMThemes,
+    PekWMThemes,
+}
+
+// kde themes
+pub enum QtGeneral {
+    AmarokScripts,
+    AuroraeThemes,
+    DekoratorThemes,
+    KwinEffects,
+    KwinScripts,
+    KwinTabbox,
+    PlasmaDesktopthemes,
+    PlasmaLookAndFeel,
+    PlasmaPlasmoids,
+    QtCurve,
+    YakuakeSkins,
+}
+
+// application specific
+pub enum AppSpecific {
+    NautiliusScripts,
 }
