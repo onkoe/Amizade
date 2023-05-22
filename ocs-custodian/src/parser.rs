@@ -24,26 +24,10 @@ pub fn check_url(url: &str) -> Result<ParsedOcsUrl, OcsParsingError> {
     // create a new instance of ParsedOcsUrl to fill out
     let parsed_ocs_url = ParsedOcsUrl {
         ocs_url: ocs_url.clone(),
-        scheme: match ocs_url.scheme().to_lowercase().as_str() {
-            "ocs" => Scheme::Ocs,
-            "ocss" => Scheme::Ocss,
-            other_scheme => {
-                return Err(OcsParsingError::UnexpectedOcsScheme(
-                    other_scheme.to_owned(),
-                ))
-            }
-        },
-        command: {
-            let pot = ocs_url.host_str();
-
-            match pot {
-                None => return Err(OcsParsingError::NoOcsCommand),
-                Some(cmd) => match cmd.to_lowercase().as_str() {
-                    "download" => Command::Download,
-                    "install" => Command::Install,
-                    other => return Err(OcsParsingError::UnexpectedOcsCommand(other.to_owned())),
-                },
-            }
+        scheme: ocs_url.scheme().try_into()?,
+        command: match ocs_url.host_str() {
+            None => return Err(OcsParsingError::NoOcsCommand),
+            Some(cmd) => cmd.try_into()?,
         },
         download_url: match parameters.get("url") {
             None => return Err(OcsParsingError::NoDownloadUrl),

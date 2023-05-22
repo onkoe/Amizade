@@ -42,7 +42,7 @@ pub struct ParsedOcsUrl {
 }
 
 impl Display for ParsedOcsUrl {
-    /// Returns a ParsedOcsUrl back as a String.
+    /// Allows for getting a ParsedOcsUrl back as a String.
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(
             f,
@@ -87,6 +87,18 @@ impl Display for Scheme {
     }
 }
 
+impl TryFrom<&str> for Scheme {
+    type Error = OcsParsingError;
+
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        match value.to_lowercase().as_str() {
+            "ocs" => Ok(Self::Ocs),
+            "ocss" => Ok(Self::Ocss),
+            other => Err(OcsParsingError::UnexpectedOcsScheme(other.to_owned())),
+        }
+    }
+}
+
 /// The intention of the URL - what the user asks you to do.
 /// Also known as a "host string" in general terms.
 #[derive(Debug, PartialEq, Eq)]
@@ -104,6 +116,18 @@ impl Display for Command {
         };
 
         write!(f, "{}", text)
+    }
+}
+
+impl TryFrom<&str> for Command {
+    type Error = OcsParsingError;
+
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        match value.to_lowercase().as_str() {
+            "download" => Ok(Self::Download),
+            "install" => Ok(Self::Install),
+            other => Err(OcsParsingError::UnexpectedOcsCommand(other.to_owned())),
+        }
     }
 }
 
@@ -141,7 +165,7 @@ pub enum PersonalMedia {
 }
 
 impl InstallStrategy for PersonalMedia {
-    /// May use $APP_DATA to denote a place to sae files.
+    /// May use $APP_DATA to denote a place to save files.
     /// $APP_DATA is defined as the where the application's configuration lives
     /// For example, `$XDG_DATA_HOME/amizade`, etc...
     // TODO: deal with $APP_DATA lmao
