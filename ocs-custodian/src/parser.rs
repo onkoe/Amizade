@@ -14,8 +14,8 @@ use urlencoding::decode;
 /// assert!((check_url("OCS://INSTALL?URL=https%3A%2F%2Ffake.download%2Fa.mp3&TYPE=music").is_err()));
 /// ```
 ///
-pub fn check_url(url: &str) -> Result<ParsedOcsUrl, OcsParsingError> {
-    let decoded_url = decode(url)?;
+pub fn check_url(url: String) -> Result<ParsedOcsUrl, OcsParsingError> {
+    let decoded_url = decode(&url)?;
     let ocs_url = Url::parse(decoded_url.deref())?;
 
     // make a hashmap out of it
@@ -46,19 +46,49 @@ pub fn check_url(url: &str) -> Result<ParsedOcsUrl, OcsParsingError> {
 }
 
 mod tests {
-    #[allow(unused)]
+    #![allow(unused)]
+    use crate::installer::install;
     use crate::parser::check_url;
-    #[allow(unused)]
     use crate::types::OcsParsingError;
-    #[allow(unused)]
     use crate::ParsedOcsUrl;
+    use urlencoding::encode;
+    use LinkParts::*;
+
+    enum LinkParts {
+        Scheme,
+        Command,
+        DownloadUrl,
+        InstallType,
+        Filename,
+        NoChange,
+    }
+
+    /// Returns a good link... by default
+    fn new_link(chosen: LinkParts, difference: &str) -> String {
+        let mut scheme: &str = "ocs";
+        let mut command: &str = "install";
+        let mut download: String = "https%3A%2F%2Ffake.download%2Flocation.png".into(); //  :p
+        let mut install_type: &str = "plasma_look_and_feel";
+        let mut filename: String = "location55.png".into(); // :p
+
+        match chosen {
+            Scheme => scheme = difference,
+            Command => command = difference,
+            DownloadUrl => download = encode(difference).into(),
+            InstallType => install_type = difference,
+            Filename => filename = encode(difference).into(),
+            NoChange => (),
+        }
+
+        format!("{scheme}://{command}?url={download}&type={install_type}&filename={filename}")
+    }
 
     #[test]
     fn url_parse_good_link() {
         // A nice working link..!
         // Should download from https://fake.download/location.png
-        let good_link = "ocs://install?url=https%3A%2F%2Ffake.download%2Flocation.png&type=plasma_look_and_feel&filename=location55.png";
-        let parsed_good_link = check_url("ocs://install?url=https%3A%2F%2Ffake.download%2Flocation.png&type=plasma_look_and_feel&filename=location55.png");
+        let good_link = new_link(LinkParts::NoChange, "");
+        let parsed_good_link = check_url(good_link.clone());
 
         // let's see if we can get our link back
         assert!(parsed_good_link.is_ok());
