@@ -108,47 +108,68 @@ mod tests {
     }
 
     #[test]
-    fn url_parse_test_scheme() {
-        // `abc` is not a vaild scheme!
-        // Download: https://normal.link/with_thing.mp3
-        let weird_scheme_link = "abc://download?url=https%3A%2F%2Fnormal.link%2Fwith_thing.mp3&type=music?filename=with_thing.mp3";
-        let parsed_weird_link = check_url(weird_scheme_link);
-
-        assert!(parsed_weird_link.is_err());
+    fn parse_weird_link() {
+        let weird = "abc";
+        // A weird link
+        // `abc` is (usually) not a valid part!
         assert_eq!(
-            parsed_weird_link,
-            Err(OcsParsingError::UnexpectedOcsScheme("abc".to_owned()))
+            check_url(new_link(Scheme, weird)),
+            Err(OcsParsingError::UnexpectedOcsScheme(weird.into()))
         );
-
-        // No scheme!
-        let no_scheme_link = "download?url=https%3A%2F%2Fnormal.link%2Fwith_thing.mp3&type=music?filename=with_thing.mp3";
-        let parsed_no_scheme = check_url(no_scheme_link);
-
-        assert!(parsed_no_scheme.is_err());
-        // Seems like NoOcsScheme won't be used much. Oh well!
         assert_eq!(
-            parsed_no_scheme,
+            check_url(new_link(Command, weird)),
+            Err(OcsParsingError::UnexpectedOcsCommand(weird.into()))
+        );
+        assert_eq!(
+            check_url(new_link(DownloadUrl, weird)),
             Err(OcsParsingError::UrlParsingError(
                 url::ParseError::RelativeUrlWithoutBase
             ))
         );
+        // ...
+        // TODO: uncomment when check_url actually checks types
+        // ...
+        /*assert_eq!(
+            check_url(new_link(InstallType, weird)),
+            Err(OcsParsingError::UnknownInstallType(weird.into()))
+        ); */
+        assert!(check_url(new_link(Filename, weird)).is_ok());
+    }
 
-        // Extremely long scheme
-        let looooong_scheme = "abcd".repeat(400);
-        let long_scheme_link = format!("{looooong_scheme}://download?url=https%3A%2F%2Fnormal.link%2Fwith_thing.mp3&type=music?filename=with_thing.mp3");
-        let parsed_long_scheme = check_url(long_scheme_link.as_str());
+    #[test]
+    fn parse_blank_link() {
+        // A link with some missing section
+        assert!(check_url(new_link(Scheme, "")).is_err());
+        assert!(check_url(new_link(Command, "")).is_err());
+        assert!(check_url(new_link(DownloadUrl, "")).is_err());
+        // assert!(check_url(new_link(InstallType, "")).is_err()); TODO
+        assert!(check_url(new_link(Filename, "")).is_ok());
+    }
 
-        assert!(parsed_long_scheme.is_err());
-        assert_eq!(
-            parsed_long_scheme,
-            Err(OcsParsingError::UnexpectedOcsScheme(looooong_scheme))
-        );
+    #[test]
+    fn parse_loooong_link() {
+        let long = "abcd".repeat(400);
 
-        // Crazy characters scheme
-        let crazy_scheme_link = "#(*H(F*(DH*HS(*D))));ocs://\"://download?url=https%3A%2F%2Fnormal.link%2Fwith_thing.mp3&type=music?filename=with_thing.mp3";
-        let parsed_crazy_scheme = check_url(crazy_scheme_link);
+        // A link where some part is obviously too long.
+        // (testing for a panic)
+        assert!(check_url(new_link(Scheme, long.as_str())).is_err());
+        assert!(check_url(new_link(Command, long.as_str())).is_err());
+        assert!(check_url(new_link(DownloadUrl, format!("https://{long})").as_str())).is_ok());
+        // assert!(check_url(new_link(InstallType, long.as_str())).is_err()); TODO
+        assert!(check_url(new_link(Filename, long.as_str())).is_ok());
+    }
 
-        assert!(parsed_crazy_scheme.is_err());
-        // I don't think we'll ever predict that one...
+    #[test]
+    fn parse_crazy_link() {
+        let crazy = "#(*H(F*(DH*HS(*D))));";
+
+        // A link with some weiiiird characters
+        // Again, the main goal is to just not panic. :)
+
+        assert!(check_url(new_link(Scheme, crazy)).is_err());
+        assert!(check_url(new_link(Command, crazy)).is_err());
+        assert!(check_url(new_link(DownloadUrl, crazy)).is_err());
+        // assert!(check_url(new_link(InstallType, crazy)).is_err()); TODO
+        assert!(check_url(new_link(Filename, crazy)).is_ok());
     }
 }
