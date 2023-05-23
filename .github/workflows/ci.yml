@@ -36,3 +36,16 @@ jobs:
         manifest-path: amizade/build-aux/club.barretts.Amizade.Devel.json
         run-tests: true
         cache-key: flatpak-builder-${{ github.sha }}
+
+  custodian-tests:
+    name: custodian-tests
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        with:
+         profile: minimal
+         toolchain: stable
+         override: true
+      - name: Run tests for ocs-custodian
+        run: cargo t --lib
