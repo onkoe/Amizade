@@ -61,7 +61,10 @@ impl Display for ParsedOcsUrl {
             write!(
                 f,
                 "&filename={}",
-                self.filename.as_ref().expect("test").as_str()
+                self.filename
+                    .as_ref()
+                    .expect("filename should be some :)")
+                    .as_str()
             )?;
         }
 

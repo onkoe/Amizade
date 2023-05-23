@@ -25,3 +25,6 @@
 
 # Ignore Cargo.lock for libraries only
 # ...
+
+# those macOS files
+**/.DS_Store

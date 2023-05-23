@@ -1,11 +1,11 @@
-// This module handles the spammy install types for `ocs://` links on Pling.
-//
-// It may be a better idea to use `build.rs` and dynamically create a file from
-// a given CSV. However, I don't like the fact that this could affect
-// testing and make development a bit less obvious.
-//
-// If you think that you have a good way to do this without affecting runtime
-// performance, please let me know in an issue. I'd love to take a look!
+/// This module handles the spammy install types for `ocs://` links on Pling.
+///
+/// It may be a better idea to use `build.rs` and dynamically create a file from
+/// a given CSV. However, I don't like the fact that this could affect
+/// testing and make development a bit less obvious.
+///
+/// If you think that you have a good way to do this without affecting runtime
+/// performance, please let me know in an issue. I'd love to take a look!
 use thiserror::Error;
 
 /// Represents which kind of file should be processed.
@@ -108,12 +108,15 @@ impl TryFrom<&str> for Styling {
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         match value {
-            "color_schemes" => Ok(Self::ColorSchemes),
+            "color_schemes" | "plasma_color_schemes" => Ok(Self::ColorSchemes),
             "cursors" => Ok(Self::Cursors),
             "emoticons" => Ok(Self::Emoticons),
             "fonts" => Ok(Self::Fonts),
             "icons" => Ok(Self::Icons),
-            "themes" => Ok(Self::Themes),
+            "themes" | "gnome_shell_themes" | "cinnamon_themes" | "gtk2_themes" | "gtk3_themes"
+            | "metacity_themes" | "xfwm4_themes" | "openbox_themes" | "kvantum_themes" => {
+                Ok(Self::Themes)
+            }
             other => Err(InstallTypeError::NoMatchingInstallType(other.into())),
         }
     }
@@ -161,7 +164,7 @@ impl TryFrom<&str> for WMThemes {
             "cinnamon_applets" => Ok(Self::CinnamonApplets),
             "cinnamon_desklets" => Ok(Self::CinnamonDesklets),
             "cinnamon_extensions" => Ok(Self::CinnamonExtensions),
-            "emerald_themes" => Ok(Self::EmeraldThemes),
+            "emerald_themes" | "compiz_themes" | "beryl_themes" => Ok(Self::EmeraldThemes),
             "enlightenment_backgrounds" => Ok(Self::EnlightenmentBackgrounds),
             "enlightenment_themes" => Ok(Self::EnlightenmentThemes),
             "fluxbox_styles" => Ok(Self::FluxboxStyles),
@@ -210,17 +213,19 @@ impl TryFrom<&str> for QtGeneral {
     type Error = InstallTypeError;
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         match value {
-            "" => Ok(Self::AmarokScripts),
-            "" => Ok(Self::AuroraeThemes),
-            "" => Ok(Self::DekoratorThemes),
-            "" => Ok(Self::KwinEffects),
-            "" => Ok(Self::KwinScripts),
-            "" => Ok(Self::KwinTabbox),
-            "" => Ok(Self::PlasmaDesktopthemes),
-            "" => Ok(Self::PlasmaLookAndFeel),
-            "" => Ok(),
-            "" => Ok(),
-            "" => Ok(),
+            "amarok_scripts" => Ok(Self::AmarokScripts),
+            "aurorae_themes" => Ok(Self::AuroraeThemes),
+            "dekorator_themes" => Ok(Self::DekoratorThemes),
+            "kwin_effects" => Ok(Self::KwinEffects),
+            "kwin_scripts" => Ok(Self::KwinScripts),
+            "kwin_tabbox" => Ok(Self::KwinTabbox),
+            "plasma_desktopthemes" | "plasma5_desktopthemes" => Ok(Self::PlasmaDesktopthemes),
+            "plasma_look_and_feel" | "plasma5_look_and_feel" => Ok(Self::PlasmaLookAndFeel),
+            "plasma_plasmoids" | "plasma4_plasmoids" | "plasma5_plasmoids" => {
+                Ok(Self::PlasmaPlasmoids)
+            }
+            "qtcurve" => Ok(Self::QtCurve),
+            "yakuake_skins" => Ok(Self::YakuakeSkins),
             other => Err(InstallTypeError::NoMatchingInstallType(other.into())),
         }
     }
