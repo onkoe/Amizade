@@ -96,19 +96,15 @@ mod tests {
     }
 
     #[test]
-    fn url_parse_bad_link() {
+    fn parse_bad_link() {
         // Evil, scary link.
         // Must be an error if they're like this :)
-        let bad_link = "sduigh:sdiguhcc8////s::;dij";
-        let parsed_bad_link = check_url(bad_link);
-
-        assert!(parsed_bad_link.is_err());
+        assert!(check_url("sduigh:sdiguhcc8////s::;dij".into()).is_err());
     }
 
     #[test]
-    fn url_parse_empty_link() {
-        let parsed_empty_link = check_url("");
-        assert!(parsed_empty_link.is_err());
+    fn parse_empty_link() {
+        assert!(check_url("".into()).is_err());
     }
 
     #[test]
