@@ -1,11 +1,11 @@
-/// This module handles the spammy install types for `ocs://` links on Pling.
-///
-/// It may be a better idea to use `build.rs` and dynamically create a file from
-/// a given CSV. However, I don't like the fact that this could affect
-/// testing and make development a bit less obvious.
-///
-/// If you think that you have a good way to do this without affecting runtime
-/// performance, please let me know in an issue. I'd love to take a look!
+//! This module handles the spammy install types for `ocs://` links on Pling.
+//!
+//! It may be a better idea to use `build.rs` and dynamically create a file from
+//! a given CSV. However, I don't like the fact that this could affect
+//! testing and make development a bit less obvious.
+//!
+//! If you think that you have a good way to do this without affecting runtime
+//! performance, please let me know in an issue. I'd love to take a look!
 use thiserror::Error;
 
 /// Represents which kind of file should be processed.
@@ -20,6 +20,7 @@ trait InstallStrategy {
 }
 
 /// Represents a failure to parse given install type data.
+///
 #[derive(Error, Debug, PartialEq, Eq)]
 pub enum InstallTypeError {
     #[error("No known install type matched the given prompt: {0}")]
