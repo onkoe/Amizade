@@ -16,5 +16,3 @@ impl ParsedOcsUrl {
         todo!("no idea how to get these from Pling right now :(");
     }
 }
-
-mod tests {}
