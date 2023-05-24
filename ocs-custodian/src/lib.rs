@@ -2,6 +2,6 @@ pub mod handler;
 pub mod installer;
 pub mod parser;
 mod tests;
-pub mod types;
+mod types;
 
 pub use types::ParsedOcsUrl;

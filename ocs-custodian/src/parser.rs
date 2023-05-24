@@ -1,3 +1,5 @@
+//! A way to parse `ocs://` URLS.
+#[allow(unused_imports)]
 use crate::types::{Command, OcsParsingError, ParsedOcsUrl, Scheme};
 
 use std::collections::HashMap;
@@ -11,7 +13,7 @@ use urlencoding::decode;
 /// As-is, OCS links should be lowercase in their implementation.
 /// ```
 /// use ocs_custodian::parser::check_url;
-/// assert!((check_url("OCS://INSTALL?URL=https%3A%2F%2Ffake.download%2Fa.mp3&TYPE=music").is_err()));
+/// assert!((check_url("OCS://INSTALL?URL=https%3A%2F%2Ffake.download%2Fa.mp3&TYPE=music".into()).is_err()));
 /// ```
 ///
 pub fn check_url(url: String) -> Result<ParsedOcsUrl, OcsParsingError> {

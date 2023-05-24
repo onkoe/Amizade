@@ -15,7 +15,9 @@ pub struct InstallType {
 }
 
 /// Helps define how any specific InstallType should install itself to the system.
-trait InstallStrategy {
+pub trait InstallStrategy {
+    /// Each InstallType requires a different installation location.
+    /// When InstallStrategy is implemented, you can just get it for your type.
     fn get_install_path(&self) -> String;
 }
 
@@ -30,6 +32,7 @@ pub enum InstallTypeError {
 }
 
 // personal media
+#[derive(Debug, PartialEq, Eq)]
 pub enum PersonalMedia {
     Bin,
     Books,
@@ -82,6 +85,8 @@ impl TryFrom<&str> for PersonalMedia {
 }
 
 // styling
+#[derive(Debug, PartialEq, Eq)]
+
 pub enum Styling {
     ColorSchemes,
     Cursors,
@@ -124,6 +129,7 @@ impl TryFrom<&str> for Styling {
 }
 
 // wm themes
+#[derive(Debug, PartialEq, Eq)]
 pub enum WMThemes {
     CairoClockThemes,
     CinnamonApplets,
@@ -178,6 +184,7 @@ impl TryFrom<&str> for WMThemes {
 }
 
 // kde themes
+#[derive(Debug, PartialEq, Eq)]
 pub enum QtGeneral {
     AmarokScripts,
     AuroraeThemes,
@@ -233,6 +240,7 @@ impl TryFrom<&str> for QtGeneral {
 }
 
 // application specific
+#[derive(Debug, PartialEq, Eq)]
 pub enum AppSpecific {
     NautiliusScripts,
 }
