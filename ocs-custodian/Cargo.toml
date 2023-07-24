@@ -8,4 +8,4 @@ edition = "2021"
 [dependencies]
 thiserror = "1.0.40"
 url = "2.3.1"
-urlencoding = "2.1.2"
+urlencoding = "2.1.3"
